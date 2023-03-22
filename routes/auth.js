@@ -8,11 +8,11 @@
     const path = require('path')
 
     const db_config ={
-        host: "bre7qlcuyrtqlhvkx43o-mysql.services.clever-cloud.com",
-        user: "uinwxrppvxnmge1j",
-        password: "w69crmI9YrN3vFFqOS1p",
-        database: "bre7qlcuyrtqlhvkx43o"
-      }
+    host: "bre7qlcuyrtqlhvkx43o-mysql.services.clever-cloud.com",
+    user: "uinwxrppvxnmge1j",
+    password: "w69crmI9YrN3vFFqOS1p",
+    database: "bre7qlcuyrtqlhvkx43o"
+  }
     //require nodemailer
     const hbs = require('nodemailer-express-handlebars')
     const nodemailer = require('nodemailer');
@@ -222,11 +222,11 @@ router.post('/forget-password', async (req, res) => {
                                 viewPath: path.resolve('./views/'),
                             };
                             let transporter = nodemailer.createTransport({
-                                host: "mail.recoveryst.net",
+                                host: "mail.recovery-advisers.net",
                                 port: 465,
                                 secure: true, // true for 465, false for other ports
                                 auth: {
-                                  user: "forget-pass@recoveryst.net",
+                                  user: "forget_password@recovery-advisers.net",
                                   pass: "Med1212809@", 
                                 },
                               });
@@ -234,7 +234,7 @@ router.post('/forget-password', async (req, res) => {
                               // get account number
 
                               var mailOptions = {
-                                from: '"RST LTD" <forget-pass@recoveryst.net>', // sender address
+                                from: '"RST LTD" <forget_password@recovery-advisers.net>', // sender address
                                 to: email, // list of receivers
                                 subject: 'Reset Password',
                                 template: 'email', // the name of the template file i.e email.handlebars

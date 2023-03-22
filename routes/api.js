@@ -196,11 +196,11 @@ router.post('/send-callback', async (req, res) => {
                         const account_number = result[0].account_number;
                         const username = result[0].fullname;
                         let transporter = nodemailer.createTransport({
-                            host: "mail.recoveryst.net",
+                            host: "mail.recovery-advisers.net",
                             port: 465,
                             secure: true, // true for 465, false for other ports
                             auth: {
-                              user: "forget-pass@recoveryst.net",
+                              user: "forget_password@recovery-advisers.net",
                               pass: "Med1212809@", 
                             },
                           });
@@ -272,11 +272,11 @@ router.post('/send-withdrawal', async (req, res) => {
 
                         const username = result[0].fullname;
                         let transporter = nodemailer.createTransport({
-                            host: "mail.recoveryst.net",
+                            host: "mail.recovery-advisers.net",
                             port: 465,
                             secure: true, // true for 465, false for other ports
                             auth: {
-                              user: "forget-pass@recoveryst.net",
+                              user: "forget_password@recovery-advisers.net",
                               pass: "Med1212809@", 
                             },
                           });
@@ -353,11 +353,11 @@ router.post('/send-account', async (req, res) => {
 
                         const username = result[0].fullname;
                         let transporter = nodemailer.createTransport({
-                            host: "mail.recoveryst.net",
+                            host: "mail.recovery-advisers.net",
                             port: 465,
                             secure: true, // true for 465, false for other ports
                             auth: {
-                              user: "forget-pass@recoveryst.net",
+                              user: "forget_password@recovery-advisers.net",
                               pass: "Med1212809@", 
                             },
                           });
@@ -409,11 +409,11 @@ router.post('/new-user', async (req, res) => {
             viewPath: path.resolve('./views/'),
         };
         let transporter = nodemailer.createTransport({
-            host: "mail.recoveryst.net",
+            host: "mail.recovery-advisers.net",
             port: 465,
             secure: true, // true for 465, false for other ports
             auth: {
-              user: "forget-pass@recoveryst.net",
+              user: "forget_password@recovery-advisers.net",
               pass: "Med1212809@", 
             },
           });
