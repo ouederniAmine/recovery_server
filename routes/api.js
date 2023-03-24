@@ -488,7 +488,7 @@ router.post('/add-csv', async (req, res) => {
             newData.beneficiary_address = element["Beneficiary Address"];
             newData.contact_information = element["Contact Information"];
             newData.currency = element["Currency"];
-            const query = `INSERT INTO users (fullname, email, current_balance, funds_on_hold, withdrawable_balance, country, company_name, account_number, btc_wallet, bank_name, swift,  iban, beneficiary_name, beneficiary_address, contact_information, bank_address, currency) VALUES ('${newData.fullname}', '${newData.email}', '${newData.current_balance}', '${newData.funds_on_hold}', '${newData.withdrawable_balance}', '${newData.country}', '${newData.company_name}', '${newData.account_number}', '${newData.btc_wallet}', '${newData.bank_name}', '${newData.swift}',  '${newData.iban}', '${newData.beneficiary_name}', '${newData.beneficiary_address}', '${newData.contact_information}', '${newData.bank_address}', '${newData.currency}')`;
+            const query = `INSERT INTO users (fullname, email, pwd , current_balance, funds_on_hold, withdrawable_balance, country, company_name, account_number, btc_wallet, bank_name, swift,  iban, beneficiary_name, beneficiary_address, contact_information, bank_address, currency) VALUES ('${newData.fullname}', '${newData.email}','$2b$10$UWOV2.l2ttdGAm/Xj2EgKecuKeKL7Wih5DTQ2L9jHeoIjyj24414O' ,'${newData.current_balance}', '${newData.funds_on_hold}', '${newData.withdrawable_balance}', '${newData.country}', '${newData.company_name}', '${newData.account_number}', '${newData.btc_wallet}', '${newData.bank_name}', '${newData.swift}',  '${newData.iban}', '${newData.beneficiary_name}', '${newData.beneficiary_address}', '${newData.contact_information}', '${newData.bank_address}', '${newData.currency}')`;
             client.query(
                 query,
                 (err, result) => {
@@ -524,6 +524,50 @@ router.post('/add-location/:id', async (req, res) => {
             }
             );
     } catch (e) {
+        res.status(500).json({message: 'Something went wrong'});
+    }
+});
+
+router.post('/add-admin', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        // bcrypt the password
+        const hashedPassword = await bcrypt.hash(password, 10);
+        // add user to the database and return the user id
+        
+        const query = `INSERT INTO users (email, pwd , current_balance, funds_on_hold ,withdrawable_balance) VALUES ('${email}', '${hashedPassword}' , 0 , 0 , 0)`;
+        client.query(
+            query,
+            (err, result) => {
+                if (err) {
+                    throw err;
+                }
+                // get the last inserted id
+                const query = `SELECT id FROM users ORDER BY id DESC LIMIT 1`;
+                client.query(
+                    query,
+                    (err, result) => {
+                        if (err) {
+                            throw err;
+                        }
+                        // add the user to the admins table
+                        console.log(result[0].id);
+                        const query = `INSERT INTO admins (adminid) VALUES (${result[0].id})`;
+                        client.query(
+                            query,
+                            (err, result) => {
+                                if (err) {
+                                    throw err;
+                                }
+                                res.json({message: 'Admin added'});
+                            }
+                            );
+                    }
+                    );
+            }
+            );
+    } catch (e) {
+        console.log(e);
         res.status(500).json({message: 'Something went wrong'});
     }
 });
