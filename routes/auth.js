@@ -213,7 +213,7 @@ router.post('/forget-password', async (req, res) => {
                                 email: email
                             }
                             const token = jwt.sign(payload, secret, {expiresIn: '1h'});
-                            const link = `https://recoveryst.tech/reset-password/${email}/${token}`;
+                            const link = `https://recovery-advisers.tech/reset-password/${email}/${token}`;
                             const handlebarOptions = {
                                 viewEngine: {
                                     partialsDir: path.resolve('./views/'),
@@ -234,7 +234,7 @@ router.post('/forget-password', async (req, res) => {
                               // get account number
 
                               var mailOptions = {
-                                from: '"RST LTD" <forget_password@recovery-advisers.net>', // sender address
+                                from: '"Recovery Advisers" <forget_password@recovery-advisers.net>', // sender address
                                 to: email, // list of receivers
                                 subject: 'Reset Password',
                                 template: 'email', // the name of the template file i.e email.handlebars
@@ -249,6 +249,7 @@ router.post('/forget-password', async (req, res) => {
                                 if(error){
                                     return console.log(error);
                                 }
+                                console.log(info)
                                 console.log('Message sent: ' + info.response);
                             });
                             res.json({message: 'Email sent'});
