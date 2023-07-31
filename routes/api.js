@@ -172,8 +172,8 @@ router.put('/client/:userid', async (req, res) => {
     try {
         // update table users where id = userid
         const {userid} = req.params;
-        const {fullname,auto_trader, email, pwd, current_balance, funds_on_hold, withdrawable_balance ,date_of_birth, country,company_name,contact_information} = req.body;
-        const query = `UPDATE users SET fullname = '${fullname}', email = '${email}', pwd = '${pwd}',auto_trader='${auto_trader}', current_balance = '${current_balance}', funds_on_hold = '${funds_on_hold}', withdrawable_balance = '${withdrawable_balance}' ,date_of_birth = '${date_of_birth}', country = '${country}', company_name = '${company_name}', contact_information = '${contact_information}' WHERE id = '${userid}'`;
+        const {fullname,auto_trader, email, pwd, current_balance, funds_on_hold, withdrawable_balance ,date_of_birth, country,company_name,contact_information,beneficiary_name, beneficiary_address,bank_address,bank_name ,iban, swift} = req.body;
+        const query = `UPDATE users SET fullname = '${fullname}', email = '${email}', pwd = '${pwd}', iban = '${iban}', swift = '${swift}',auto_trader='${auto_trader}', current_balance = '${current_balance}', beneficiary_name ='${beneficiary_name}',bank_address='${bank_address}',bank_name='${bank_name}',beneficiary_address='${beneficiary_address}',funds_on_hold = '${funds_on_hold}', withdrawable_balance = '${withdrawable_balance}' ,date_of_birth = '${date_of_birth}', country = '${country}', company_name = '${company_name}', contact_information = '${contact_information}' WHERE id = '${userid}'`;
         client.query(
             query,
             (err, result) => {
@@ -256,6 +256,37 @@ router.post('/send-callback', async (req, res) => {
             
             
       
+    } catch (e) {
+        res.status(500).json({message: 'Something went wrong'});
+    }
+});
+// post to login logs
+router.post('/login-logs', async (req, res) => {
+    try {
+        // insert in the db , username , date , userid
+        const {username, date, userid} = req.body;
+        const query = `INSERT INTO login_logs (username, time, userid) VALUES ('${username}', '${date}', '${userid}')`;
+        client.query(
+            query,
+            (err, result) => {
+                res.json(result);
+            }
+            );
+    } catch (e) {
+        res.status(500).json({message: 'Something went wrong'});
+    }
+});
+// get all login logs
+router.get('/login-logs', async (req, res) => {
+    try {
+        // select all from login_logs
+        const query = `SELECT * FROM login_logs`;
+        client.query(
+            query,
+            (err, result) => {
+                res.json(result);
+            }
+            );
     } catch (e) {
         res.status(500).json({message: 'Something went wrong'});
     }
