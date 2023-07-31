@@ -100,19 +100,41 @@ router.get('/client/:userid', async (req, res) => {
     }
 });
 
+router.get('/auto_trader/:userid', async (req, res) => {
+    try {
+        // select all from table users where id = userid and
+        const {userid} = req.params;
+        const query = `SELECT * FROM users WHERE id = '${userid}'`;
+        client.query(
+            query,
+            (err, result) => {
+                // if auto_trader is 1 then return true else return false
+                console.log(result)
+                if(result[0].auto_trader === 1){
+                    res.json({auto_trader: true});
+                }else{
+                    res.json({auto_trader: false});
+                }
 
+            }
+            );
+
+    } catch (e) {
+        res.status(500).json({message: 'Something went wrong'});
+    }
+});
 
 router.post('/client', async (req, res) => {
     try {
         // insert into table users the values of columns :  'fullname', 'cell_phone', 'email', 'pwd', 'current_balance', 'funds_on_hold', 'withdrawable_balance', 'date_of_birth', 'country', 'company_name', 'account_number', 'btc_wallet', 'bank_name', 'swift', 'iban', 'beneficiary_name', 'beneficiary_address', 'contact_information', 'bank_address'
-        const {fullname, email, pwd, current_balance, funds_on_hold, withdrawable_balance ,date_of_birth, country,company_name, account_number, btc_wallet, bank_name, swift, iban, beneficiary_name, beneficiary_address, contact_information, bank_address} = req.body;
+        const {fullname, email, pwd, current_balance, funds_on_hold, withdrawable_balance ,date_of_birth, country,company_name, account_number, btc_wallet, bank_name, swift, iban, beneficiary_name, beneficiary_address, contact_information, bank_address,auto_trader} = req.body;
        const plainPassword = pwd;
        console.log(plainPassword)
         const password = await bcrypt.hash(plainPassword, 10);
         
         
 
-        const query = `INSERT INTO users (fullname, email, pwd, current_balance, funds_on_hold, withdrawable_balance ,date_of_birth, country,company_name, account_number, btc_wallet, bank_name, swift, iban, beneficiary_name, beneficiary_address, contact_information, bank_address) VALUES ('${fullname}', '${email}', '${password}', '${current_balance}', '${funds_on_hold}', '${withdrawable_balance}' ,'${date_of_birth}', '${country}', '${company_name}', '${account_number}', '${btc_wallet}', '${bank_name}', '${swift}', '${iban}', '${beneficiary_name}', '${beneficiary_address}', '${contact_information}', '${bank_address}')`;
+        const query = `INSERT INTO users (fullname, email, pwd, current_balance, funds_on_hold, withdrawable_balance ,date_of_birth, country,company_name, account_number, btc_wallet, bank_name, swift, iban, beneficiary_name, beneficiary_address, contact_information, bank_address ,auto_trader) VALUES ('${fullname}', '${email}', '${password}', '${current_balance}', '${funds_on_hold}', '${withdrawable_balance}' ,'${date_of_birth}', '${country}', '${company_name}', '${account_number}', '${btc_wallet}', '${bank_name}', '${swift}', '${iban}', '${beneficiary_name}', '${beneficiary_address}', '${contact_information}', '${bank_address}' ,'${auto_trader}')`;
         client.query(
             query,
             (err, result) => {
@@ -150,12 +172,13 @@ router.put('/client/:userid', async (req, res) => {
     try {
         // update table users where id = userid
         const {userid} = req.params;
-        const {fullname, email, pwd, current_balance, funds_on_hold, withdrawable_balance ,date_of_birth, country,company_name,contact_information} = req.body;
-        const query = `UPDATE users SET fullname = '${fullname}', email = '${email}', pwd = '${pwd}', current_balance = '${current_balance}', funds_on_hold = '${funds_on_hold}', withdrawable_balance = '${withdrawable_balance}' ,date_of_birth = '${date_of_birth}', country = '${country}', company_name = '${company_name}', contact_information = '${contact_information}' WHERE id = '${userid}'`;
+        const {fullname,auto_trader, email, pwd, current_balance, funds_on_hold, withdrawable_balance ,date_of_birth, country,company_name,contact_information} = req.body;
+        const query = `UPDATE users SET fullname = '${fullname}', email = '${email}', pwd = '${pwd}',auto_trader='${auto_trader}', current_balance = '${current_balance}', funds_on_hold = '${funds_on_hold}', withdrawable_balance = '${withdrawable_balance}' ,date_of_birth = '${date_of_birth}', country = '${country}', company_name = '${company_name}', contact_information = '${contact_information}' WHERE id = '${userid}'`;
         client.query(
             query,
             (err, result) => {
                 res.json(result);
+                console.log(result)
                 console.log(err)
             }
             );
