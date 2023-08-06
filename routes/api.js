@@ -172,8 +172,8 @@ router.put('/client/:userid', async (req, res) => {
     try {
         // update table users where id = userid
         const {userid} = req.params;
-        const {fullname,auto_trader, email, pwd, current_balance, funds_on_hold, withdrawable_balance ,date_of_birth, country,company_name,contact_information,beneficiary_name, beneficiary_address,bank_address,bank_name ,iban, swift} = req.body;
-        const query = `UPDATE users SET fullname = '${fullname}', email = '${email}', pwd = '${pwd}', iban = '${iban}', swift = '${swift}',auto_trader='${auto_trader}', current_balance = '${current_balance}', beneficiary_name ='${beneficiary_name}',bank_address='${bank_address}',bank_name='${bank_name}',beneficiary_address='${beneficiary_address}',funds_on_hold = '${funds_on_hold}', withdrawable_balance = '${withdrawable_balance}' ,date_of_birth = '${date_of_birth}', country = '${country}', company_name = '${company_name}', contact_information = '${contact_information}' WHERE id = '${userid}'`;
+        const {fullname,auto_trader, email, pwd,btc_wallet, current_balance,account_number, currency,funds_on_hold, withdrawable_balance ,date_of_birth, country,company_name,contact_information,beneficiary_name, beneficiary_address,bank_address,bank_name ,iban, swift } = req.body;
+        const query = `UPDATE users SET fullname = '${fullname}',currency='${currency}',account_number='${account_number}',btc_wallet ='${btc_wallet}', email = '${email}', pwd = '${pwd}', iban = '${iban}', swift = '${swift}',auto_trader='${auto_trader}', current_balance = '${current_balance}', beneficiary_name ='${beneficiary_name}',bank_address='${bank_address}',bank_name='${bank_name}',beneficiary_address='${beneficiary_address}',funds_on_hold = '${funds_on_hold}', withdrawable_balance = '${withdrawable_balance}' ,date_of_birth = '${date_of_birth}', country = '${country}', company_name = '${company_name}', contact_information = '${contact_information}' WHERE id = '${userid}'`;
         client.query(
             query,
             (err, result) => {
